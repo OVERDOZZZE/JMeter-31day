@@ -1,17 +1,43 @@
 class Solution {
 public:
-    vector<int> twoSum(vector<int>& nums, int target) {
-        unordered_map<int, int> numMap;
-        int n = nums.size();
-
-        for (int i = 0; i < n; i++) {
-            int complement = target - nums[i];
-            if (numMap.count(complement)) {
-                return {numMap[complement], i};
-            }
-            numMap[nums[i]] = i;
+    int numBusesToDestination(vector<vector<int>>& routes, int source, int target) {
+        if (source == target) {
+            return 0;
         }
 
-        return {}; // No solution found
+        int maxStop = -1;
+        for (const auto& route : routes) {
+            for (int stop : route) {
+                maxStop = max(maxStop, stop);
+            }
+        }
+
+        if (maxStop < target) {
+            return -1;
+        }
+
+        int n = routes.size();
+        vector<int> minBusesToReach(maxStop + 1, INT_MAX);
+        minBusesToReach[source] = 0;
+
+        bool flag = true;
+        while (flag) {
+            flag = false;
+            for (const auto& route : routes) {
+                int min = n+1;
+                for (int stop : route) {
+                    min = std::min(min, minBusesToReach[stop]);
+                }
+                min++;
+                for (int stop : route) {
+                    if (minBusesToReach[stop] > min) {
+                        minBusesToReach[stop] = min;
+                        flag = true;
+                    }
+                }
+            }
+        }
+
+        return (minBusesToReach[target] < n+1) ? minBusesToReach[target] : -1;
     }
 };

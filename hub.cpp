@@ -1,43 +1,21 @@
 class Solution {
 public:
-    int numBusesToDestination(vector<vector<int>>& routes, int source, int target) {
-        if (source == target) {
-            return 0;
-        }
-
-        int maxStop = -1;
-        for (const auto& route : routes) {
-            for (int stop : route) {
-                maxStop = max(maxStop, stop);
+    int mySqrt(int x) {
+        if (x == 0)
+            return x;
+        int first = 1, last = x;
+        while (first <= last) {
+            int mid = first + (last - first) / 2;
+            // mid * mid == x gives runtime error
+            if (mid  == x / mid)
+                return mid;
+            else if (mid > x / mid) {
+                last = mid - 1;
+            }
+            else {
+                first = mid + 1;
             }
         }
-
-        if (maxStop < target) {
-            return -1;
-        }
-
-        int n = routes.size();
-        vector<int> minBusesToReach(maxStop + 1, INT_MAX);
-        minBusesToReach[source] = 0;
-
-        bool flag = true;
-        while (flag) {
-            flag = false;
-            for (const auto& route : routes) {
-                int min = n+1;
-                for (int stop : route) {
-                    min = std::min(min, minBusesToReach[stop]);
-                }
-                min++;
-                for (int stop : route) {
-                    if (minBusesToReach[stop] > min) {
-                        minBusesToReach[stop] = min;
-                        flag = true;
-                    }
-                }
-            }
-        }
-
-        return (minBusesToReach[target] < n+1) ? minBusesToReach[target] : -1;
+        return last;
     }
 };

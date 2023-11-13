@@ -1,15 +1,25 @@
-class Solution:
-    def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
-        cur = dummy = ListNode()
-        while list1 and list2:               
-            if list1.val < list2.val:
-                cur.next = list1
-                list1, cur = list1.next, list1
-            else:
-                cur.next = list2
-                list2, cur = list2.next, list2
-                
-        if list1 or list2:
-            cur.next = list1 if list1 else list2
-            
-        return dummy.next
+class Solution {
+public:
+    int searchInsert(vector<int>& nums, int target) {
+        int low=0;
+        int high=nums.size();
+        int mid;
+        if(target>nums[high-1]){
+            return high;
+        }
+        while(low<=high){
+              mid=(low+high)/2;
+            if(nums[mid]==target){  
+                return mid;
+            }
+          
+            if(target<nums[mid]){     
+            high=mid-1;    
+            }else{
+            low=mid+1;        
+            }
+          
+        }
+         return  low;   
+    }
+};

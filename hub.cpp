@@ -1,21 +1,13 @@
 class Solution {
 public:
-    int mySqrt(int x) {
-        if (x == 0)
-            return x;
-        int first = 1, last = x;
-        while (first <= last) {
-            int mid = first + (last - first) / 2;
-            // mid * mid == x gives runtime error
-            if (mid  == x / mid)
-                return mid;
-            else if (mid > x / mid) {
-                last = mid - 1;
-            }
-            else {
-                first = mid + 1;
+    vector<int> twoSum(vector<int>& nums, int target) {
+        for (int i = 0; i < nums.size(); i++) {
+            for (int j = i + 1; j < nums.size(); j++) {
+                if (nums[i] + nums[j] == target) {
+                    return {i, j};
+                }
             }
         }
-        return last;
+        return {};
     }
 };
